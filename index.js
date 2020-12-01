@@ -1,15 +1,23 @@
-const express = require('express');
-const http = require('http');
-const socketio = require('socket.io');
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "*"
+  }
+});
+const PORT = process.env.PORT || 4000;
 
-const app = express();
-const PORT = 3000 || process.env.PORT;
-const server = http.createServer(app);
-const io = socketio(server);
-
-//Run when client connects
-io.on('connection', socket => {
-    console.log("New Connection...");
+io.on('connection', function(socket){
+  console.log('con')
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
 });
 
-app.listen(PORT,()=>{console.log('Server running on port ' + PORT)});
+app.get('/',function(req,res){
+  res.send('test')
+});
+
+http.listen(PORT, function(){
+  console.log('listening on *:' + PORT);
+});
