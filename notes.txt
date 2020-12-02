@@ -1,0 +1,13 @@
+lsof -i tcp:3000
+
+kill -9 <PID>
+
+308 @ 3min
+
+1. chat auth
+	-verify user via utilo
+	-send token from chat-api-server
+2. chat user(s)/communities(courses)
+	-user will select a course 
+	-send request to chat-api via courseID
+	-get chats/users
