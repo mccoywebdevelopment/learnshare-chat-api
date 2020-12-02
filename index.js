@@ -18,7 +18,13 @@ mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
 
-// Passport middleware
+var serviceAccount = require("./config/utilo-edu-firebase-adminsdk-auzkz-010df0b588.json");
+
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(serviceAccount),
+  databaseURL: "https://utilo-edu.firebaseio.com"
+});
+  // Passport middleware
 app.use(passport.initialize());
 require("./config/passport")(passport);
 
