@@ -7,6 +7,7 @@ const socketioOptions = {cors: {origin: "*"}};
 const io = require("socket.io")(http,socketioOptions);
 const db = process.env.MONGO_URI || require("./config/secret").MONGO_TESTING_URI;
 const PORT = process.env.PORT || require("./config/secret").PORT;
+const firebaseAdmin = require('firebase-admin');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -21,12 +22,12 @@ mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
 app.use(passport.initialize());
 require("./config/passport")(passport);
 
-// io.on('connection', function(socket){
-//   console.log('con')
-//   socket.on('chat message', function(msg){
-//     io.emit('chat message', msg);
-//   });
-// });
+io.on('connection', function(socket){
+  console.log('con')
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
+});
 
 // app.get('/',function(req,res){
 //   res.send('test')
