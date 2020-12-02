@@ -1,11 +1,12 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const mongoose = require("mongoose");
+const passport = require("passport");
 const bodyParser = require("body-parser");
 const socketioOptions = {cors: {origin: "*"}};
 const io = require("socket.io")(http,socketioOptions);
 const db = process.env.MONGO_URI || require("./config/secret").MONGO_TESTING_URI;
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || require("./config/secret").PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -32,5 +33,5 @@ require("./config/passport")(passport);
 // });
 
 http.listen(PORT, function(){
-  console.log('listening on *:' + PORT);
+  console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nlistening on *:' + PORT);
 });
