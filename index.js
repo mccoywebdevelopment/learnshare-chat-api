@@ -40,4 +40,7 @@ mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
     console.log('\nDatabase is connected.')
     require('./http/index');
     app.use('/chat/',require('./routes/chat'));
+    app.get("/",function(req,res){
+      res.send("success")
+    });
   }).catch(err => console.log("\n"+err));
