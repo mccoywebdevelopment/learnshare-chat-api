@@ -4,7 +4,7 @@ const cors = require('cors');
 const MessageModel = require('./models/Message');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const db = process.env.MONGO_URI || require("./config/secret").MONGO_TESTING_URI;
+const db = process.env.MONGO_TESTING_URI || require("./config/secret").MONGO_TESTING_URI;
 const PORT = process.env.PORT || require("./config/secret").PORT;
 const firebaseAdmin = require('firebase-admin');
 const socketioOptions = {cors: {origin: "*"}};
@@ -17,11 +17,11 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-var serviceAccount = require("./config/utilo-edu-firebase-adminsdk-auzkz-010df0b588.json");
+var serviceAccount = require("./config/secret").FIREBASE_SERVICE_ACCOUNT;
 
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(serviceAccount),
-  databaseURL: "https://utilo-dev.firebaseio.com"
+  databaseURL: process.env.FIREBASE_DATABASE_URL || require('./config/secret').FIREBASE_DATABASE_URL
 });
 
 io.use(require('./config/firebaseAuth').verifyUser);
