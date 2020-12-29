@@ -18,9 +18,9 @@ app.use(bodyParser.urlencoded({
 
 var serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || require("./config/secret").FIREBASE_SERVICE_ACCOUNT);
 
-console.log(serviceAccount);
-
-// console.log(JSON.stringify(JSON.stringify(serviceAccount, null, 4)));
+/* paste the following below after uncommenting it in cmd inside config vars in heroku (web) config vars
+console.log(JSON.stringify(serviceAccount));
+*/
 
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(serviceAccount),
