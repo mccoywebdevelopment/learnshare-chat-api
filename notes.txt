@@ -4,10 +4,33 @@ kill -9 <PID>
 
 308 @ 3min
 
-1. chat auth
-	-verify user via utilo
-	-send token from chat-api-server
-2. chat user(s)/communities(courses)
-	-user will select a course 
-	-send request to chat-api via courseID
-	-get chats/users
+
+
+/ sending to sender-client only
+socket.emit('message', "this is a test");
+
+// sending to all clients, include sender
+io.emit('message', "this is a test");
+
+// sending to all clients except sender
+socket.broadcast.emit('message', "this is a test");
+
+// sending to all clients in 'game' room(channel) except sender
+socket.broadcast.to('game').emit('message', 'nice game');
+
+// sending to all clients in 'game' room(channel), include sender
+io.in('game').emit('message', 'cool game');
+
+// sending to sender client, only if they are in 'game' room(channel)
+socket.to('game').emit('message', 'enjoy the game');
+
+// sending to all clients in namespace 'myNamespace', include sender
+io.of('myNamespace').emit('message', 'gg');
+
+// sending to individual socketid
+socket.broadcast.to(socketid).emit('message', 'for your eyes only');
+
+// list socketid
+for (var socketid in io.sockets.sockets) {}
+ OR
+Object.keys(io.sockets.sockets).forEach((socketid) => {});

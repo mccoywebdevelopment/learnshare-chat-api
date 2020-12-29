@@ -2,10 +2,12 @@ var mongoose = require("mongoose");
 
 var ChatSchema = new mongoose.Schema({
     title:{type:String,required:true},
-    refID:{type:String},
+    refID:{type:String,required : true},
+    dateCreated:{type:Date,required:true},
+    uniqueKey:{type:String,required:true,select:false},
     users:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
     }],
     messages:[{
         type: mongoose.Schema.Types.ObjectId,
@@ -13,5 +15,5 @@ var ChatSchema = new mongoose.Schema({
     }]
 });
 
-module.exports = mongoose.model("Message", ChatSchema);
+module.exports = mongoose.model("Chat", ChatSchema);
 
