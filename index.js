@@ -16,7 +16,11 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-var serviceAccount = require("./config/secret").FIREBASE_SERVICE_ACCOUNT;
+var serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || require("./config/secret").FIREBASE_SERVICE_ACCOUNT);
+
+console.log(serviceAccount);
+
+// console.log(JSON.stringify(JSON.stringify(serviceAccount, null, 4)));
 
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(serviceAccount),
