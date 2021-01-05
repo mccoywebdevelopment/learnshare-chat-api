@@ -23,15 +23,13 @@ var serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || require(
 console.log(JSON.stringify(serviceAccount));
 */
 
-let DBURI = process.env.FIREBASE_DATABASE_URL_DEV;
-if(process.env.NODE_ENV == 'production'){
-  firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert(serviceAccount),
-    databaseURL: FIREBASE_DB
-  });
-}else{
 
-}
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(serviceAccount),
+  databaseURL: FIREBASE_DB
+});
+
+console.log("\n" + FIREBASE_DB +" is selected for firebase.");
 
 io.use(require('./config/firebaseAuth').verifyUser);
 
