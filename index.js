@@ -8,6 +8,7 @@ const PORT = process.env.PORT || require("./config/secret").PORT;
 const firebaseAdmin = require('firebase-admin');
 const socketioOptions = {cors: {origin: "*"}};
 var io = require("socket.io")(http,socketioOptions);
+var FIREBASE_DB = process.env.FIREBASE_DATABASE_URL_PROD || require("./config/secret").FIREBASE_DATABASE_URL_DEV;
 
 app.use(cors());
 
@@ -22,10 +23,15 @@ var serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || require(
 console.log(JSON.stringify(serviceAccount));
 */
 
-firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(serviceAccount),
-  databaseURL: process.env.FIREBASE_DATABASE_URL || require('./config/secret').FIREBASE_DATABASE_URL
-});
+let DBURI = process.env.FIREBASE_DATABASE_URL_DEV;
+if(process.env.NODE_ENV == 'production'){
+  firebaseAdmin.initializeApp({
+    credential: firebaseAdmin.credential.cert(serviceAccount),
+    databaseURL: FIREBASE_DB
+  });
+}else{
+
+}
 
 io.use(require('./config/firebaseAuth').verifyUser);
 
