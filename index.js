@@ -29,8 +29,6 @@ firebaseAdmin.initializeApp({
   databaseURL: FIREBASE_DB
 });
 
-console.log("\n" + FIREBASE_DB +" is selected for firebase.");
-
 io.use(require('./config/firebaseAuth').verifyUser);
 
 http.listen(PORT, function(){
@@ -41,7 +39,8 @@ module.exports = {io:io}
 
 mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    console.log('\nDatabase is connected.')
+    console.log('\nMongoDB database is connected.')
+    console.log(FIREBASE_DB +" is selected for firebase.\n\n\n");
     require('./http/index');
     app.use('/chat/',require('./routes/chat'));
     app.get("/",function(req,res){

@@ -6,7 +6,6 @@ function createUser(name,uuid,isAdmin,callback){
         dateCreated:new Date(),
         refID:uuid,
         isAdmin:isAdmin
-
     }
     let user = new UserModel(userBody);
 

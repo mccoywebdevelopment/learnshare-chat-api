@@ -59,13 +59,9 @@ router.route("/add_users/:id/:uuid")
     });
 });
 
-router.route("/create-test")
-.post(function(req,res){
-    let courseID = req.body.courseID;
-    let users = req.body.users;
-    let title = req.body.title;
-
-    chatQ.createChat(courseID,title,users,function(err,result){
+router.route("/create-default/:uuid")
+.post(verifyUserRoute,function(req,res){
+    chatQ.createDefaultChats(req.body.courseID,req.body.users,function(err,result){
         if(err){
             console.log(err);
             res.status(404).json({error:err});
@@ -74,6 +70,5 @@ router.route("/create-test")
         }
     });
 });
-
 
 module.exports = router;
