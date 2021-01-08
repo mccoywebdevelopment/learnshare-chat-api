@@ -71,4 +71,16 @@ router.route("/create-default/:uuid")
     });
 });
 
+router.route("/leave/:chatID/:refUserID/:uuid")
+.post(verifyUserRoute,function(req,res){
+    chatQ.leaveChat(req.params.chatID,req.params.refUserID,function(err,result){
+        if(err){
+            console.log(err);
+            res.status(404).json({error:err});
+        }else{
+            res.send(result);
+        }
+    });
+});
+
 module.exports = router;

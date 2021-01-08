@@ -91,8 +91,6 @@ function createDefaultChats(courseID, users, callback) {
         return;
     }
 
-    console.log(users);
-
     Chat.find({ refID: courseID }, function (err, chatsFound) {
         if (err) {
             callback(err);
@@ -256,4 +254,35 @@ function getUsers(users, callback) {
         });
     });
 }
-module.exports = { findChatsByCourseID, createChat, createDefaultChats, findChatsByCourseID, findChatByID, addUsers } 
+
+function leaveChat(chatID,refUserID,callback){
+    ChatModel.findById(chatID).populate('users').exec(function(err,chatFound){
+        if(err){
+            callback(err);
+        }else{
+            let found = false;
+            let usersArr = [];
+            for(var i=0;i<chatFound.users.length;++i){
+                if(chatFound.users[i].refID == refUserID){
+                    found = true;
+                }else{
+                    usersArr.push(chatFound.users[i]);
+                }
+            }
+            if(!found){
+                callback("User not found");
+            }else{
+                chatFound.users = usersArr;
+                chatFound.save(function(err,savedDoc){
+                    if(err){
+                        callback(err);
+                    }else{
+                        callback(null,savedDoc);
+                    }
+                });
+            }
+        }
+    });
+}
+
+module.exports = { findChatsByCourseID, leaveChat, createChat, createDefaultChats, findChatsByCourseID, findChatByID, addUsers } 
