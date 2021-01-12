@@ -211,13 +211,21 @@ function addUsers(users, chatID, callback) {
         if (err) {
             callback(err);
         } else {
+            console.log(users)
             ChatModel.findOneAndUpdate({ _id: chatID }, { $push: { users: users } }).exec(function (err, chatFound) {
                 if (err) {
                     callback(err);
                 } else if (!chatFound) {
                     callback("chat not found");
                 } else {
-                    callback(null, chatFound);
+                    ChatModel.findById(chatID).populate('users').exec(function(err,chatFound){
+                        if(err){
+                            callback(err);
+                        }else{
+                            console.log(chatFound)
+                            callback(null,chatFound)
+                        }
+                    });
                 }
             });
         }
